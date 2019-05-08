@@ -1,31 +1,58 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</head>
-<body>
-{{--<div class="container">--}}
-{{--    <div class="col-12">--}}
-{{--        <div class="row">--}}
-{{--            <h1></h1>--}}
-{{--            <table class="table table-striped">--}}
-{{--                <thead>--}}
-{{--                <tr>--}}
-{{--                    <th scope="col">Name</th>--}}
-{{--                </tr>--}}
-{{--                </thead>--}}
-{{--            </table>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-{{--</div>--}}
-</body>
-</html>
+@extends('home')
+@section('title', 'Category List')
+@section('content')
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <h1 style="color: cadetblue">Category List</h1>
+            </div>
+            <div>
+                <a href="{{route('categories.create')}}">
+                    <button type="submit" class="btn btn-warning btn-sm">Create</button>
+                </a>
+                <a href="{{route('index')}}">
+                    <button type="submit" class="btn btn-primary btn-sm">Blog</button>
+                </a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Category Number</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @if(count($categories) == 0)
+                    <tr>
+                        <td colspan="4">No data</td>
+                    </tr>
+                @else
+                    @foreach($categories as $key => $category)
+                        <tr>
+                            <td scope="row">{{+$key}}</td>
+                            <td>{{$category->name}}</td>
+                            <td>{{count($category->blog)}}</td>
+                            <td>
+                                <a href="{{route('categories.edit', ['id' => $category->id])}}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{route('categories.delete', ['id' => $category->id])}}">
+                                    <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('You sure want to delete? {{$category->name}}')">
+                                        Delete
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endsection
